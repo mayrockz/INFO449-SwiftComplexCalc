@@ -27,7 +27,93 @@ print("Welcome back to the UW Calculator")
 //:
 //: IMPORTANT: If any tests are commented out, you will be graded a zero (0)! You should never be in the habit of eliminating tests to make the code pass.
 //:
-class Calculator {
+
+class Calculator
+{
+    // basic ops
+    func add(lhs: Int, rhs: Int) -> Int
+    {
+        lhs + rhs
+    }
+
+    func subtract(lhs: Int, rhs: Int) -> Int
+    {
+        lhs - rhs
+    }
+
+    func multiply(lhs: Int, rhs: Int) -> Int
+    {
+        lhs * rhs
+    }
+
+    func divide(lhs: Int, rhs: Int) -> Int
+    {
+        rhs == 0 ? 0 : lhs / rhs
+    }
+
+    func mod(lhs: Int, rhs: Int) -> Int {
+        rhs == 0 ? 0 : lhs % rhs
+    }
+    
+    // higher order ops
+    func mathOp(lhs: Int, rhs: Int, op: (Int, Int) -> Int) -> Int
+    {
+        op(lhs, rhs)
+    }
+    
+    func mathOp(args: [Int], beg: Int, op: (Int, Int) -> Int) -> Int
+    {
+        args.reduce(beg, op)
+    }
+
+    // arr ops
+    func add(_ args: [Int]) -> Int
+    {
+        args.reduce(0, +)
+    }
+
+    func multiply(_ args: [Int]) -> Int
+    {
+        args.reduce(1, *)
+    }
+
+    func count(_ args: [Int]) -> Int
+    {
+        args.count
+    }
+
+    func avg(_ args: [Int]) -> Int
+    {
+        guard !args.isEmpty else { return 0 }
+        return add(args) / count(args)
+    }
+
+    // cartesian points
+    func add(lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int)
+    {
+        (lhs.0 + rhs.0, lhs.1 + rhs.1)
+    }
+
+    func subtract(lhs: (Int, Int), rhs: (Int, Int)) -> (Int, Int)
+    {
+        (lhs.0 - rhs.0, lhs.1 - rhs.1)
+    }
+
+    func add(lhs: [String: Int], rhs: [String: Int]) -> [String: Int]
+    {
+        [
+            "x": (lhs["x"] ?? 0) + (rhs["x"] ?? 0),
+            "y": (lhs["y"] ?? 0) + (rhs["y"] ?? 0)
+        ]
+    }
+
+    func subtract(lhs: [String: Int], rhs: [String: Int]) -> [String: Int]
+    {
+        [
+            "x": (lhs["x"] ?? 0) - (rhs["x"] ?? 0),
+            "y": (lhs["y"] ?? 0) - (rhs["y"] ?? 0)
+        ]
+    }
 }
 
 //: Don't change the name of this object (`calc`); it's used in all the tests.
@@ -43,6 +129,39 @@ let calc = Calculator()
 //: Keep in mind that writing new tests may reveal ambiguity in the specification above--if that's the case, document the ambiguity, declare what you think *should* happen, and write the test to test for it.
 
 // ===== Your tests go here
+
+// negative nums
+calc.add(lhs: -5, rhs: -10) == -15
+calc.add(lhs: -5, rhs: 10) == 5
+calc.multiply(lhs: -4, rhs: 3) == -12
+calc.multiply(lhs: -4, rhs: -3) == 12
+
+// divide with negatives
+calc.divide(lhs: -10, rhs: 2) == -5
+calc.divide(lhs: 10, rhs: -2) == -5
+
+// divide by zero
+calc.divide(lhs: 10, rhs: 0) == 0
+
+// avg edge cases
+calc.avg([]) == 0
+calc.avg([-2, -4, -6]) == -4
+
+// add/multiply with empty arrays
+calc.add([]) == 0
+calc.multiply([]) == 1
+
+// mathOp with empty args (returns beg val)
+calc.mathOp(args: [], beg: 10, op: { $0 + $1 }) == 10
+
+// cartesian points with negatives
+calc.add(lhs: (-3, -4), rhs: (5, 6)) == (2, 2)
+
+// dict points with missing keys
+let pd3 = ["x": 5]
+let pd4 = ["y": 7]
+calc.add(lhs: pd3, rhs: pd4) == ["x": 5, "y": 7]
+
 
 //: ---
 //: ## Test code block
