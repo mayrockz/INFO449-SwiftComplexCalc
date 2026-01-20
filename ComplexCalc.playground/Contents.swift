@@ -51,7 +51,8 @@ class Calculator
         rhs == 0 ? 0 : lhs / rhs
     }
 
-    func mod(lhs: Int, rhs: Int) -> Int {
+    func mod(lhs: Int, rhs: Int) -> Int
+    {
         rhs == 0 ? 0 : lhs % rhs
     }
     
@@ -135,6 +136,10 @@ calc.add(lhs: -5, rhs: -10) == -15
 calc.add(lhs: -5, rhs: 10) == 5
 calc.multiply(lhs: -4, rhs: 3) == -12
 calc.multiply(lhs: -4, rhs: -3) == 12
+
+// mod tests
+calc.mod(lhs: 10, rhs: 3) == 1
+calc.mod(lhs: 10, rhs: 0) == 0
 
 // divide with negatives
 calc.divide(lhs: -10, rhs: 2) == -5
